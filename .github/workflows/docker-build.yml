@@ -15,3 +15,6 @@ jobs:
 
     - name: Build Docker Image
       run: docker build -t airline-predictor:latest .
+
+    - name: Run Model
+      run: docker run -p 8000:8000 airline-api
