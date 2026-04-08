@@ -1,22 +1,28 @@
-# Use an image that has Java installed (Required for Spark)
-FROM openjdk:11-jre-slim
+# 1. Use an official, supported Python runtime as a parent image
+FROM python:3.10-slim
 
-# Install Python and Pip
-RUN apt-get update && apt-get install -y python3 python3-pip
+# 2. Install Java (Required for PySpark to function)
+RUN apt-get update && \
+    apt-get install -y default-jre && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+# 3. Set JAVA_HOME environment variable
+ENV JAVA_HOME=/usr/lib/jvm/default-java
+
+# 4. Set the working directory in the container
 WORKDIR /app
 
-# Copy dependencies and install
+# 5. Copy the requirements file and install dependencies
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the API script and the saved model folder
+# 6. Copy your application code and the serialized model
 COPY app.py .
 COPY airline_delay_model/ ./airline_delay_model/
 
-# Expose the port FastAPI runs on
+# 7. Expose the port for FastAPI
 EXPOSE 8000
 
-# Command to run the API
+# 8. Define the command to run the application
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
