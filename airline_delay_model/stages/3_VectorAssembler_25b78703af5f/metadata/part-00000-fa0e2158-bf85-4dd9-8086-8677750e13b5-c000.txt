@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.feature.VectorAssembler","timestamp":1775640844703,"sparkVersion":"4.1.1","uid":"VectorAssembler_25b78703af5f","paramMap":{"handleInvalid":"skip","inputCols":["Month","DayofMonth","Distance","CRSDepTime","CarrierVec","OriginVec"],"outputCol":"features"},"defaultParamMap":{"handleInvalid":"error","outputCol":"VectorAssembler_25b78703af5f__output"}}
